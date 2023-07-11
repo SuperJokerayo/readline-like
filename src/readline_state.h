@@ -15,9 +15,9 @@ public:
     int ofd;
     std::string buf;
     const std::string prompt;
-    size_t plen;
     size_t pos;
     int history_index;
+    std::string text_color;
 
     ReadLineState();
     ~ReadLineState();
