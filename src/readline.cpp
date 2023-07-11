@@ -2,8 +2,6 @@
 #include <fstream>
 #include <iostream>
 #include <unistd.h>
-#include <errno.h>
-#include <functional>
 #include <sys/stat.h>
 // #include "utils.h"
 
@@ -346,12 +344,12 @@ int ReadLine::historySave(const std::string filename) {
 static int enableRawMode(int ifd) {
     struct termios raw;
 
-    if (!isatty(STDIN_FILENO)) goto fatal;
+    if (!isatty(STDIN_FILENO)) return -1;
     if (!atexit_registered) {
         atexit(lineAtExit);
         atexit_registered = 1;
     }
-    if (tcgetattr(ifd, &orig_termios) == -1) goto fatal;
+    if (tcgetattr(ifd, &orig_termios) == -1) return -1;
 
     raw = orig_termios; 
     raw.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
@@ -359,12 +357,9 @@ static int enableRawMode(int ifd) {
     raw.c_cflag |= (CS8);
     raw.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
     raw.c_cc[VMIN] = 1; raw.c_cc[VTIME] = 0; 
-    if (tcsetattr(ifd, TCSAFLUSH, &raw) < 0) goto fatal;
+    if (tcsetattr(ifd, TCSAFLUSH, &raw) < 0) return -1;
     rawmode = 1;
     return 0;
-fatal:
-    errno = ENOTTY;
-    return -1;
 }
 
 
