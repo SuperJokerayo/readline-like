@@ -53,3 +53,16 @@ cd ..
 ls
 mkdir test
 ls
+sdaf\
+ls
+d
+ff
+ddd
+f
+ls
+dsdf
+dsaf
+ls
+cat Makefile
+echo "hello, world"
+ls
