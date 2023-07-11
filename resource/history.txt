@@ -1,3 +1,55 @@
-get mykey
-***
-get mykey
+d
+dd
+tt
+t
+ttd
+tttt
+ttttttttttttttt
+dfasdfsdf
+ttttt
+tttt
+ttt
+esf
+fsd
+fsa
+ttt
+tsdaf
+dasdfas
+stst
+echo hello world
+jjjddd
+asfasddf
+jjjdddddd
+dfasdf
+jjjdddddddfffffaaabb
+dasdf
+d
+sadfdfsdfa
+ls
+cd ..
+ls
+cat main
+ls
+cat CMakeCache.txt
+ls
+cat Makefile
+sadf
+ddd
+f
+asdfasdfsda
+sdfa
+e
+fasdf
+jj
+e
+cc
+taoshilong
+ls
+cat CMakeCache.txt
+ls
+cd ..
+ls
+cd ..
+ls
+mkdir test
+ls
