@@ -1,12 +1,12 @@
 #include "readline.h"
+
+#include <sys/stat.h>
+#include <unistd.h>
+
 #include <fstream>
 #include <iostream>
-#include <unistd.h>
-#include <sys/stat.h>
-// #include "utils.h"
 
 ReadLine::ReadLine() {
-    // std::cout << "initializing ReadLine" << std::endl;
     history = std::vector<std::string>();
     historyLoad("../resource/history.txt");
 }
@@ -23,8 +23,8 @@ int ReadLine::editLine(const std::string prompt) {
     return ret;
 }
 
-int ReadLine::editLineStart(int stdin_fd, int stdout_fd, std::string buf, const std::string prompt) {
-    // std::cout << "start editing line" << std::endl;
+int ReadLine::editLineStart(int stdin_fd, int stdout_fd, std::string buf, 
+                            const std::string prompt) {
     state.in_completion = 0;
     state.ifd = stdin_fd != -1 ? stdin_fd : STDIN_FILENO;
     state.ofd = stdout_fd != -1 ? stdout_fd : STDOUT_FILENO;
@@ -32,16 +32,15 @@ int ReadLine::editLineStart(int stdin_fd, int stdout_fd, std::string buf, const 
     std::string* prompt_ = (std::string*)&state.prompt;
     *prompt_ = prompt;
     state.pos = 0;
-    // state.pos = state.oldpos = 0;
-    // state.cols = utils::getColumns();
-    // state.oldrows = 0;
     state.history_index = history.size();
 
     if (enableRawMode(state.ifd) == -1) return -1;
 
     historyAdd(buf);
     auto prompt_with_color = setTextColor(prompt, state.text_color);
-    if (write(state.ofd, prompt_with_color.c_str(), prompt_with_color.length()) == -1) return -1;
+    if (write(state.ofd, prompt_with_color.c_str(), prompt_with_color.length()) == 
+        -1) 
+        return -1;
     return 0;
 }
 
@@ -54,7 +53,6 @@ int ReadLine::editLineFeed() {
     switch(c) {
         case ENTER:
             history.pop_back(); 
-            // responseLine(state.buf);
             return 0;
         case CTRL_C:
             return -1;
@@ -164,8 +162,8 @@ void ReadLine::editLineEnd() {
 
 
 int ReadLine::refreshLine() {
-    // auto new_line = state.prompt + state.buf;
-    auto new_line = "\r"+ state.prompt + state.buf + "\x1b[0K" + "\r\x1b[" + std::to_string(state.pos + state.prompt.length()) + "C";
+    auto new_line = "\r"+ state.prompt + state.buf + "\x1b[0K" + "\r\x1b[" + 
+                    std::to_string(state.pos + state.prompt.length()) + "C";
     history[state.history_index] = state.buf;
     new_line = setTextColor(new_line, state.text_color);
     if (write(state.ofd, new_line.c_str(), new_line.length()) == -1) return -1;
@@ -290,9 +288,7 @@ void ReadLine::clearScreen() {
 
 
 int ReadLine::responseLine(const std::string line) {
-    // std::cout << "response line: " << line << std::endl;
     system(line.c_str());
-    // std::cout << "echo: " << line << std::endl;
     historyAdd(line);
     historySave("../resource/history.txt");
     state.history_index = history.size();
@@ -305,7 +301,6 @@ int ReadLine::historyLoad(const std::string filename)
     std::fstream fp;
     fp.open(filename, std::ios::in);
     if (!fp.is_open()) return -1;
-    // std::cout << "start loading history" << std::endl;
     std::string line;
     while(getline(fp, line)) {
         int pos = line.find_first_of('\r');
@@ -321,7 +316,6 @@ int ReadLine::historyAdd(const std::string line) {
     int n = history.size();
     if(n and history.back() == line) return 0;
     if(n == HISTORY_MAX_LINE) history.erase(history.begin());
-    // std::cout << "adding history: " << line << std::endl;
     history.emplace_back(line);
     return 1;
 }
@@ -377,9 +371,12 @@ const std::string ReadLine::getBuf() {
 }
 
 
-const std::string ReadLine::setTextColor(const std::string line, std::string text_color) {
-    if (readline_color::color_map.find(text_color) != readline_color::color_map.end())
-        return "\x1b[" + std::to_string(readline_color::color_map[text_color]) + "m" + line + "\x1b[0m";
+const std::string ReadLine::setTextColor(const std::string line, 
+                                         std::string text_color) {
+    if (readline_color::color_map.find(text_color) != 
+        readline_color::color_map.end())
+        return "\x1b[" + std::to_string(readline_color::color_map[text_color]) + 
+               "m" + line + "\x1b[0m";
     return line;
 }
 

@@ -1,10 +1,12 @@
 #ifndef READLINE_H_
 #define READLINE_H_
 
+#include <termios.h>
+
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include <termios.h>
+
 #include "readline_state.h"
 
 
@@ -62,11 +64,10 @@ private:
     
     ReadLineState state;
 
-    int editLineStart(int stdin_fd, int stdout_fd, std::string buf, const std::string prompt);
+    int editLineStart(int stdin_fd, int stdout_fd, std::string buf, 
+                      const std::string prompt);
     int editLineFeed();
     void editLineEnd();
-
-    // int responseLine(const std::string line);
 
     int refreshLine();
 
@@ -91,7 +92,8 @@ private:
     int historySave(const std::string filename);
 
 
-    const std::string setTextColor(const std::string line, std::string text_color);
+    const std::string setTextColor(const std::string line, 
+                                   std::string text_color);
 
 public:
     ReadLine();
