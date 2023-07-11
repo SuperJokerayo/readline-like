@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include <termios.h>
 #include "readline_state.h"
 
@@ -28,6 +29,22 @@ enum KEY_ACTION{
 	ESC = 27,           /* Escape */
 	BACKSPACE =  127    /* Backspace */
 };
+
+namespace readline_color{
+    static std::unordered_map<std::string, int> color_map = {
+        {"--black", 30},
+        {"--red", 31},
+        {"--green", 32},
+        {"--yellow", 33},
+        {"--blue", 34},
+        {"--purple", 35},
+        {"--cyan", 36},
+        {"--white", 37},
+        {"default", 39}
+    };
+}
+
+
 static struct termios orig_termios;
 static int rawmode = 0;
 static int atexit_registered = 0;
@@ -73,14 +90,16 @@ private:
     int historyAdd(const std::string line);
     int historySave(const std::string filename);
 
-    // help function in development
+
+    const std::string setTextColor(const std::string line, std::string text_color);
+
 public:
     ReadLine();
     ~ReadLine();
     int editLine(const std::string prompt);
     int responseLine(const std::string line);
     const std::string getBuf();
-    void printHistory();
+    void setTextColor(const std::string tex_color);
 };
 
 

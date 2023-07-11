@@ -31,7 +31,6 @@ int ReadLine::editLineStart(int stdin_fd, int stdout_fd, std::string buf, const 
     state.buf = buf;
     std::string* prompt_ = (std::string*)&state.prompt;
     *prompt_ = prompt;
-    state.plen = prompt.length();
     state.pos = 0;
     // state.pos = state.oldpos = 0;
     // state.cols = utils::getColumns();
@@ -41,8 +40,8 @@ int ReadLine::editLineStart(int stdin_fd, int stdout_fd, std::string buf, const 
     if (enableRawMode(state.ifd) == -1) return -1;
 
     historyAdd(buf);
-
-    if (write(state.ofd, prompt.c_str(), state.plen) == -1) return -1;
+    auto prompt_with_color = setTextColor(prompt, state.text_color);
+    if (write(state.ofd, prompt_with_color.c_str(), prompt_with_color.length()) == -1) return -1;
     return 0;
 }
 
@@ -168,6 +167,7 @@ int ReadLine::refreshLine() {
     // auto new_line = state.prompt + state.buf;
     auto new_line = "\r"+ state.prompt + state.buf + "\x1b[0K" + "\r\x1b[" + std::to_string(state.pos + state.prompt.length()) + "C";
     history[state.history_index] = state.buf;
+    new_line = setTextColor(new_line, state.text_color);
     if (write(state.ofd, new_line.c_str(), new_line.length()) == -1) return -1;
     return 0;
 }
@@ -376,9 +376,13 @@ const std::string ReadLine::getBuf() {
     return state.buf;
 }
 
-void ReadLine::printHistory() {
-    // std::cout << "start printing history" << std::endl;
-    for(auto h : history) {
-        std::cout << h << std::endl;
-    }
+
+const std::string ReadLine::setTextColor(const std::string line, std::string text_color) {
+    if (readline_color::color_map.find(text_color) != readline_color::color_map.end())
+        return "\x1b[" + std::to_string(readline_color::color_map[text_color]) + "m" + line + "\x1b[0m";
+    return line;
+}
+
+void ReadLine::setTextColor(const std::string text_color) {
+    state.text_color = text_color;
 }
