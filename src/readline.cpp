@@ -288,7 +288,7 @@ void ReadLine::clearScreen() {
 
 
 int ReadLine::responseLine(const std::string line) {
-    system(line.c_str());
+    if (system(line.c_str()) != 0){};
     historyAdd(line);
     historySave("../resource/history.txt");
     state.history_index = history.size();
