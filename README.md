@@ -20,4 +20,4 @@ make
 --cyan
 --white
 ```
-and default color if there is no argment.
+and default color if there is no argument.
