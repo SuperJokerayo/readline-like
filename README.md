@@ -1,5 +1,11 @@
 # A C++ implemented readline-like library.
 
+## Implemented 
+- Single line edit with the usual key bindings implemented.
+- History handling.
+- Colored text input.
+
+
 ## Usage
 ```shell
 mkdir build
