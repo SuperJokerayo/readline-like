@@ -1,5 +1,7 @@
 # A C++ implemented readline-like library.
 
+Referenced from https://github.com/antirez/linenoise
+
 ## Implemented 
 - Single line edit with the usual key bindings implemented.
 - History handling.
