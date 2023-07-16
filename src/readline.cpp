@@ -275,7 +275,6 @@ void ReadLine::nextHistory() {
 void ReadLine::insertChar(const char c) {
     state.buf.insert(state.pos, 1, c);
     state.pos++;
-    // history[state.history_index] = state.buf;
     refreshLine();
 }
 

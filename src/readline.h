@@ -11,7 +11,7 @@
 
 
 enum KEY_ACTION{
-    KEY_NULL = 0,	    /* NULL */
+	KEY_NULL = 0,	    /* NULL */
 	CTRL_A = 1,         /* Ctrl+a */
 	CTRL_B = 2,         /* Ctrl-b */
 	CTRL_C = 3,         /* Ctrl-c */
