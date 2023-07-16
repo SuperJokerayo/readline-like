@@ -8,7 +8,7 @@ int main(int argc, const char** argv) {
             text_color = argv[argc - 1];
         }
         rl.setTextColor(text_color);
-        auto line = rl.editLine("Demo>>");
+        auto line = rl.editLine("demo>>");
         if (-1 == line) break;
         else if(0 == line) 
             rl.responseLine(rl.getBuf());
