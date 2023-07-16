@@ -7,7 +7,6 @@
 class ReadLineState
 {
 
-// copy from linenoise
 public:
     int in_completion;
     size_t completion_idx;
