@@ -26,8 +26,8 @@ int ReadLine::editLine(const std::string prompt) {
 int ReadLine::editLineStart(int stdin_fd, int stdout_fd, std::string buf, 
                             const std::string prompt) {
     state.in_completion = 0;
-    state.ifd = stdin_fd != -1 ? stdin_fd : STDIN_FILENO;
-    state.ofd = stdout_fd != -1 ? stdout_fd : STDOUT_FILENO;
+    state.ifd = stdin_fd;
+    state.ofd = stdout_fd;
     state.buf = buf;
     std::string* prompt_ = (std::string*)&state.prompt;
     *prompt_ = prompt;
