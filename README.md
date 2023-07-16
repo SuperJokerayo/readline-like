@@ -21,3 +21,14 @@ make
 --white
 ```
 and default color if there is no argument.
+
+
+## Input and Output
+<img src = "/resource/input_output.gif">
+
+## Cursor Move
+<img src = "/resource/cursor_move.gif">
+
+
+## Colored Text
+<img src = "/resource/colored_text.gif">
